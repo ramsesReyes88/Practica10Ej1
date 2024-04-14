@@ -1,22 +1,20 @@
 package cola;
 
 public class Paciente {
-  
     private String nombre;
-    private String dia;
+    private int dia; // Cambio el tipo de día a int
 
-
-    public Paciente(String nombre, String dia) {
+    public Paciente(String nombre, int dia) {
         this.nombre = nombre;
         this.dia = dia;
     }
 
-
+    // Mantén los métodos getNombre y getDia como están
     public String getNombre() {
         return nombre;
     }
 
-    public String getDia() {
+    public int getDia() {
         return dia;
     }
 }
