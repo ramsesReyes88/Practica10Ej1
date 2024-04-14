@@ -18,11 +18,11 @@ public class Cola {
         return colas[dia - 1][0] == null;
     }
 
-    public void agregar(String nombre, int dia) {
+    public void agregar(String nombre, int edad, int dia) {
         if (!estaLlena(dia)) {
             for (int i = 0; i < maxPacientesPorDia; i++) {
                 if (colas[dia - 1][i] == null) {
-                    colas[dia - 1][i] = new Paciente(nombre, dia);
+                    colas[dia - 1][i] = new Paciente(nombre, edad, dia);
                     System.out.println("Cita agendada para el día " + obtenerNombreDia(dia) + ".");
                     return;
                 }
@@ -78,6 +78,17 @@ public class Cola {
             }
         }
         return null;
+    }
+
+    public int obtenerEdadSiguiente(int dia) {
+        if (!estaVacia(dia)) {
+            for (int i = 1; i < maxPacientesPorDia; i++) {
+                if (colas[dia - 1][i] != null) {
+                    return colas[dia - 1][i].getEdad();
+                }
+            }
+        }
+        return -1; 
     }
 
     
