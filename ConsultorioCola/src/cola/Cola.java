@@ -106,7 +106,7 @@ public class Cola {
     }
     
 
-    private String obtenerNombreDia(int dia) {
+    public String obtenerNombreDia(int dia) {
         switch (dia) {
             case 1:
                 return "Lunes";

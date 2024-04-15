@@ -14,6 +14,7 @@ import cola.Cola;
 
 public class App {
     static Scanner read = new Scanner(System.in);
+    static Scanner read2 = new Scanner(System.in).useDelimiter("\n");
     static Cola colaPacientes;
 
     public static void main(String[] args) {
@@ -34,37 +35,55 @@ public class App {
     }
 
     public static void agendarCita() {
-        clear();
-        System.out.println("\t.------------------------------------------.");
-        System.out.println("\t|       Agendar cita para paciente         |");
-        System.out.println("\t'------------------------------------------'");
-        System.out.println(".-------------------------------------------------------------.");
-        System.out.println("| >>> Por Favor, ingrese el Día que desea Pedir su Cita: <<<  |" );
-        System.out.println("'-------------------------------------------------------------'");
-        System.out.println("\n1-Lunes");
-        System.out.println("2-Martes");
-        System.out.println("3-Miércoles");
-    
-        int dia;
+         int dia = 0;
         while (true) {
-            System.out.print("Número del día: ");
-            if (read.hasNextInt()) {
-                dia = read.nextInt();
-                if (dia < 1 || dia > 3) {
-                    System.out.println("Número de día inválido. Por favor, elige 1, 2 o 3.");
-                    continue;
+            clear();
+            System.out.println("\t.------------------------------------------.");
+            System.out.println("\t|       Agendar cita para paciente         |");
+            System.out.println("\t'------------------------------------------'");
+            System.out.println(".-------------------------------------------------------------.");
+            System.out.println("| >>> Por Favor, ingrese el Día que desea Pedir su Cita: <<<  |");
+            System.out.println("'-------------------------------------------------------------'");
+            System.out.println("\n1-Lunes");
+            System.out.println("2-Martes");
+            System.out.println("3-Miércoles");
+            System.out.println("4-Regresar al menú principal");
+            
+           
+            while (true) {
+                System.out.print("Opcion: ");
+                if (read.hasNextInt()) {
+                    dia = read.nextInt();
+                    if (dia < 1 || dia > 4) {
+                        System.out.println("Número de día inválido. Por favor, elige 1, 2, 3 o 4.");
+                        continue;
+                    } else {
+                        break;
+                    }
                 } else {
-                    break;
+                    System.out.println("Error: Debe ingresar un número válido para el día.");
+                    read.next(); 
+                    continue;
                 }
-            } else {
-                System.out.println("Error: Debe ingresar un número válido para el día.");
-                read.next(); 
+            }
+            
+            if (dia == 4) {
+                return;
+            }
+            
+            if (colaPacientes.estaLlena(dia)) {
+                System.out.println("Lo siento, la cola para el día " + colaPacientes.obtenerNombreDia(dia) + " está llena.");
+                Enter();
+                clear();
                 continue;
+            } else {
+                break; 
             }
         }
+        
     
         System.out.println("\nNombre del paciente:");
-        String nombre = read.next();
+        String nombre = read2.next();
         System.out.println("\nEdad del paciente:");
         int edad;
         while (true) {
@@ -83,7 +102,7 @@ public class App {
         String respuesta;
         do {
             System.out.println("\n¿Deseas agendar otra cita? (s/n)");
-            respuesta = read.next().toLowerCase(); // Convertir la respuesta a minúsculas
+            respuesta = read.next().toLowerCase();
             if (!respuesta.equals("s") && !respuesta.equals("n")) {
                 System.out.println("Respuesta inválida. Por favor, responde con 's' o 'n'.");
             }
@@ -135,19 +154,16 @@ public class App {
                 System.out.println("\t.------------------------------------------.");
                 System.out.println("\t|        Citas médicas del día: Lunes      |");
                 System.out.println("\t'------------------------------------------'");
-                System.out.println("");
                 break;
             case 2:
                 System.out.println("\t.------------------------------------------.");
                 System.out.println("\t|        Citas médicas del día: Martes     |");
                 System.out.println("\t'------------------------------------------'");
-                System.out.println("");
                 break;
             case 3:
                 System.out.println("\t.------------------------------------------.");
                 System.out.println("\t|        Citas médicas del día: Miercoles  |");
                 System.out.println("\t'------------------------------------------'");
-                System.out.println("");
                 break;
             case 4:
                 return;
@@ -159,24 +175,24 @@ public class App {
             System.out.println("Pacientes:");
             colaPacientes.imprimir(dia, pacienteEnConsulta, siguientePacienteEnEspera);
             if (pacienteEnConsulta != null) {
-                System.out.println("\n\t\tActualmente atendiendo a: " + pacienteEnConsulta);
+                System.out.println("\t\tActualmente atendiendo a: " + pacienteEnConsulta);
             } else {
-                System.out.println("\n\t\tNo hay pacientes siendo atendidos actualmente.");
+                System.out.println("\n\t\t\tNo hay pacientes siendo atendidos actualmente.");
             }
     
             if (siguientePacienteEnEspera != null) {
                 int edadSiguientePaciente = colaPacientes.obtenerEdadSiguiente(dia);
-                System.out.println("\n\t\tSiguiente paciente en espera: " + siguientePacienteEnEspera + " (Edad: " + edadSiguientePaciente + ")");
+                System.out.println("\n\t\tSiguiente paciente: " + siguientePacienteEnEspera + "\n\t\t\t\tEdad: " + edadSiguientePaciente );
             } else {
                 if (pacienteEnConsulta == null) {
-                    System.out.println("\n\t\tNo hay pacientes agendados para este día.");
+                    System.out.println("\n\t\t\tNo hay pacientes agendados para este día.");
                 } else {
-                    System.out.println("\n\t\tNo hay más pacientes en espera.");
+                    System.out.println("\n\t\t\tNo hay más pacientes en espera.");
                 }
             }
     
-            System.out.println("\nPresione N para pasar al siguiente paciente");
-            System.out.println("\nPresione R para regresar al menú de citas médicas");
+            System.out.println("Presione N para pasar al siguiente paciente");
+            System.out.println("Presione R para regresar al menú de citas médicas");
     
             String opcion = read.next().toUpperCase();
             switch (opcion) {
